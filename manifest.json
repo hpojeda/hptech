@@ -1,0 +1,23 @@
+{
+  "name": "Gerador de Orçamento Tech",
+  "short_name": "Orçamento",
+  "description": "App para gerar orçamentos de manutenção de computadores.",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#1a202c",
+  "theme_color": "#1a202c",
+  "icons": [
+    {
+      "src": "https://placehold.co/192x192/1a202c/06b6d4?text=TEC",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "https://placehold.co/512x512/1a202c/06b6d4?text=TEC",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    }
+  ]
+}
