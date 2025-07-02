@@ -35,64 +35,64 @@
         }
     </style>
 </head>
-<body class="bg-gray-100 text-gray-800">
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200">
 
     <div class="max-w-5xl mx-auto p-4 md:p-8">
         <header class="text-center mb-8">
-            <h1 class="text-3xl md:text-4xl font-bold text-gray-900">Gerador de Orçamento</h1>
-            <p class="text-gray-600 mt-2">Crie e compartilhe orçamentos de manutenção de forma rápida e profissional.</p>
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white">Gerador de Orçamento</h1>
+            <p class="text-gray-600 dark:text-gray-400 mt-2">Crie e compartilhe orçamentos de manutenção de forma rápida e profissional.</p>
         </header>
 
         <main id="app" class="grid grid-cols-1 lg:grid-cols-2 gap-8">
             <!-- Input Form Section -->
-            <div id="quote-form" class="bg-white p-6 rounded-2xl shadow-lg">
+            <div id="quote-form" class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg">
                 <div class="flex justify-between items-center mb-6">
-                    <h2 class="text-xl font-semibold">Preencha os Dados</h2>
+                    <h2 class="text-xl font-semibold text-gray-900 dark:text-white">Preencha os Dados</h2>
                     <button id="test-data-btn" class="dev-only bg-yellow-400 text-yellow-900 px-3 py-1 rounded-lg hover:bg-yellow-500 transition text-sm font-semibold">Teste</button>
                 </div>
 
                 <form id="main-form" class="space-y-6">
                     <!-- Your/Company Data Section -->
-                    <div class="border-b pb-6">
-                        <h3 class="text-lg font-semibold mb-4 text-gray-700">1. Seus Dados (Salvo Automaticamente)</h3>
+                    <div class="border-b border-gray-200 dark:border-gray-700 pb-6">
+                        <h3 class="text-lg font-semibold mb-4 text-gray-700 dark:text-gray-300">1. Seus Dados (Salvo Automaticamente)</h3>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <input type="text" id="yourName" placeholder="Seu Nome" class="p-3 border rounded-lg focus:ring-2 focus:ring-purple-500">
-                            <input type="text" id="companyName" placeholder="Nome da Empresa" class="p-3 border rounded-lg focus:ring-2 focus:ring-purple-500">
-                            <input type="tel" id="yourPhone" placeholder="Seu Celular" class="p-3 border rounded-lg focus:ring-2 focus:ring-purple-500">
-                            <input type="email" id="yourEmail" placeholder="Seu Email" class="p-3 border rounded-lg focus:ring-2 focus:ring-purple-500">
+                            <input type="text" id="yourName" placeholder="Seu Nome" class="p-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 rounded-lg focus:ring-2 focus:ring-purple-500 text-gray-800 dark:text-gray-200">
+                            <input type="text" id="companyName" placeholder="Nome da Empresa" class="p-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 rounded-lg focus:ring-2 focus:ring-purple-500 text-gray-800 dark:text-gray-200">
+                            <input type="tel" id="yourPhone" placeholder="Seu Celular" class="p-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 rounded-lg focus:ring-2 focus:ring-purple-500 text-gray-800 dark:text-gray-200">
+                            <input type="email" id="yourEmail" placeholder="Seu Email" class="p-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 rounded-lg focus:ring-2 focus:ring-purple-500 text-gray-800 dark:text-gray-200">
                         </div>
                     </div>
 
                     <!-- Client and Equipment Section -->
-                    <div class="border-b pb-6">
-                        <h3 class="text-lg font-semibold mb-4 text-gray-700">2. Dados do Cliente e Equipamento</h3>
+                    <div class="border-b border-gray-200 dark:border-gray-700 pb-6">
+                        <h3 class="text-lg font-semibold mb-4 text-gray-700 dark:text-gray-300">2. Dados do Cliente e Equipamento</h3>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <input type="text" id="clientName" placeholder="Nome do Cliente" class="p-3 border rounded-lg focus:ring-2 focus:ring-blue-500">
-                            <input type="tel" id="clientPhone" placeholder="Celular do Cliente" class="p-3 border rounded-lg focus:ring-2 focus:ring-blue-500">
-                            <input type="email" id="clientEmail" placeholder="Email do Cliente" class="p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 col-span-2">
-                            <input type="text" id="pcBrand" placeholder="Marca do Equipamento" class="p-3 border rounded-lg focus:ring-2 focus:ring-blue-500">
-                            <input type="text" id="pcModel" placeholder="Modelo do Equipamento" class="p-3 border rounded-lg focus:ring-2 focus:ring-blue-500">
+                            <input type="text" id="clientName" placeholder="Nome do Cliente" class="p-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 text-gray-800 dark:text-gray-200">
+                            <input type="tel" id="clientPhone" placeholder="Celular do Cliente" class="p-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 text-gray-800 dark:text-gray-200">
+                            <input type="email" id="clientEmail" placeholder="Email do Cliente" class="p-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 col-span-2 text-gray-800 dark:text-gray-200">
+                            <input type="text" id="pcBrand" placeholder="Marca do Equipamento" class="p-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 text-gray-800 dark:text-gray-200">
+                            <input type="text" id="pcModel" placeholder="Modelo do Equipamento" class="p-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 text-gray-800 dark:text-gray-200">
                         </div>
                     </div>
                     
                     <!-- Quick Add Section -->
-                    <div class="border-b pb-6">
-                        <h3 class="text-lg font-semibold mb-4 text-gray-700">3. Itens</h3>
+                    <div class="border-b border-gray-200 dark:border-gray-700 pb-6">
+                        <h3 class="text-lg font-semibold mb-4 text-gray-700 dark:text-gray-300">3. Itens</h3>
                          <button type="button" id="open-quick-items-modal" class="w-full bg-indigo-500 text-white px-4 py-3 rounded-lg hover:bg-indigo-600 transition shadow font-medium">Adicionar Item Rápido</button>
                     </div>
 
                     <!-- Manual Add Sections -->
-                    <div class="border-b pb-6">
+                    <div class="border-b border-gray-200 dark:border-gray-700 pb-6">
                         <div class="flex justify-between items-center mb-4">
-                            <h3 class="text-lg font-semibold text-gray-700">Serviços Adicionados</h3>
+                            <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-300">Serviços Adicionados</h3>
                             <button type="button" id="add-service" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition shadow font-medium">+ Manual</button>
                         </div>
                         <div id="services-list" class="space-y-3"></div>
                     </div>
 
-                    <div class="border-b pb-6">
+                    <div class="border-b border-gray-200 dark:border-gray-700 pb-6">
                         <div class="flex justify-between items-center mb-4">
-                            <h3 class="text-lg font-semibold text-gray-700">Peças Adicionadas</h3>
+                            <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-300">Peças Adicionadas</h3>
                             <button type="button" id="add-component" class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition shadow font-medium">+ Manual</button>
                         </div>
                         <div id="components-list" class="space-y-3"></div>
@@ -100,56 +100,56 @@
                     
                     <!-- Deadlines and Details Section -->
                     <div>
-                         <h3 class="text-lg font-semibold mb-4 text-gray-700">Prazos e Detalhes</h3>
+                         <h3 class="text-lg font-semibold mb-4 text-gray-700 dark:text-gray-300">Prazos e Detalhes</h3>
                          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                             <input type="text" id="parts-deadline" placeholder="Prazo de chegada das peças" class="p-3 border rounded-lg focus:ring-2 focus:ring-indigo-500">
-                             <input type="text" id="service-deadline" placeholder="Prazo de finalização" class="p-3 border rounded-lg focus:ring-2 focus:ring-indigo-500">
+                             <input type="text" id="parts-deadline" placeholder="Prazo de chegada das peças" class="p-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 rounded-lg focus:ring-2 focus:ring-indigo-500 text-gray-800 dark:text-gray-200">
+                             <input type="text" id="service-deadline" placeholder="Prazo de finalização" class="p-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 rounded-lg focus:ring-2 focus:ring-indigo-500 text-gray-800 dark:text-gray-200">
                          </div>
-                         <textarea id="details" placeholder="Detalhes, observações, garantia..." class="w-full p-3 border rounded-lg h-24 focus:ring-2 focus:ring-indigo-500"></textarea>
+                         <textarea id="details" placeholder="Detalhes, observações, garantia..." class="w-full p-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 rounded-lg h-24 focus:ring-2 focus:ring-indigo-500 text-gray-800 dark:text-gray-200"></textarea>
                     </div>
                 </form>
             </div>
 
             <!-- Output/Preview Section -->
             <div class="space-y-8">
-                <div id="quote-output-container" class="bg-white p-6 rounded-2xl shadow-lg relative">
-                    <div id="quote-output" class="bg-white p-4">
-                        <header class="flex justify-between items-start pb-4 border-b-2 border-gray-200 mb-4">
+                <div id="quote-output-container" class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg relative">
+                    <div id="quote-output" class="bg-white dark:bg-gray-800 p-4">
+                        <header class="flex justify-between items-start pb-4 border-b-2 border-gray-200 dark:border-gray-700 mb-4">
                             <div>
-                               <h2 class="text-2xl font-bold text-gray-900" id="company-name-output">Sua Empresa</h2>
-                               <p class="text-sm text-gray-600" id="your-name-output">Seu Nome</p>
-                               <p class="text-sm text-gray-600" id="your-contact-output">Seu Contato</p>
+                               <h2 class="text-2xl font-bold text-gray-900 dark:text-white" id="company-name-output">Sua Empresa</h2>
+                               <p class="text-sm text-gray-600 dark:text-gray-400" id="your-name-output">Seu Nome</p>
+                               <p class="text-sm text-gray-600 dark:text-gray-400" id="your-contact-output">Seu Contato</p>
                             </div>
                             <div class="text-right">
-                               <h2 class="text-2xl font-bold text-gray-900">Orçamento</h2>
-                               <p class="text-sm text-gray-500">Data: <span id="quote-date"></span></p>
+                               <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Orçamento</h2>
+                               <p class="text-sm text-gray-500 dark:text-gray-400">Data: <span id="quote-date"></span></p>
                             </div>
                         </header>
                         <div class="mb-6">
-                            <h3 class="font-semibold text-gray-500 uppercase text-sm mb-2">Cliente</h3>
-                            <p id="client-name-output" class="font-medium">Nome do Cliente</p>
-                            <p id="client-contact-output" class="text-gray-600">Contato</p>
+                            <h3 class="font-semibold text-gray-500 dark:text-gray-400 uppercase text-sm mb-2">Cliente</h3>
+                            <p id="client-name-output" class="font-medium text-gray-800 dark:text-gray-200">Nome do Cliente</p>
+                            <p id="client-contact-output" class="text-gray-600 dark:text-gray-400">Contato</p>
                         </div>
                         <div class="mb-6">
-                            <h3 class="font-semibold text-gray-500 uppercase text-sm mb-2">Equipamento</h3>
-                            <p id="pc-brand-model-output" class="font-medium">Marca - Modelo</p>
+                            <h3 class="font-semibold text-gray-500 dark:text-gray-400 uppercase text-sm mb-2">Equipamento</h3>
+                            <p id="pc-brand-model-output" class="font-medium text-gray-800 dark:text-gray-200">Marca - Modelo</p>
                         </div>
                         <div id="services-summary" class="mb-6"></div>
                         <div id="components-summary" class="mb-6"></div>
-                        <div class="border-t pt-4 mt-4">
-                            <h3 class="font-semibold text-gray-500 uppercase text-sm mb-2">Prazos</h3>
-                            <p id="parts-deadline-output" class="text-sm text-gray-700"></p>
-                            <p id="service-deadline-output" class="text-sm text-gray-700"></p>
+                        <div class="border-t border-gray-200 dark:border-gray-700 pt-4 mt-4">
+                            <h3 class="font-semibold text-gray-500 dark:text-gray-400 uppercase text-sm mb-2">Prazos</h3>
+                            <p id="parts-deadline-output" class="text-sm text-gray-700 dark:text-gray-300"></p>
+                            <p id="service-deadline-output" class="text-sm text-gray-700 dark:text-gray-300"></p>
                         </div>
-                        <div class="border-t pt-4 mt-4">
-                             <h3 class="font-semibold text-gray-500 uppercase text-sm mb-2">Detalhes</h3>
-                             <p id="details-output" class="text-sm text-gray-700 whitespace-pre-wrap">Nenhuma observação.</p>
+                        <div class="border-t border-gray-200 dark:border-gray-700 pt-4 mt-4">
+                             <h3 class="font-semibold text-gray-500 dark:text-gray-400 uppercase text-sm mb-2">Detalhes</h3>
+                             <p id="details-output" class="text-sm text-gray-700 dark:text-gray-300 whitespace-pre-wrap">Nenhuma observação.</p>
                         </div>
-                        <div id="totals-summary" class="mt-8 pt-4 border-t-2 border-dashed"></div>
+                        <div id="totals-summary" class="mt-8 pt-4 border-t-2 border-dashed border-gray-300 dark:border-gray-600"></div>
                     </div>
                 </div>
                  <!-- Action Buttons -->
-                <div class="bg-white p-4 rounded-2xl shadow-lg flex flex-col md:flex-row gap-3 no-print">
+                <div class="bg-white dark:bg-gray-800 p-4 rounded-2xl shadow-lg flex flex-col md:flex-row gap-3 no-print">
                     <button id="generate-pdf" class="w-full bg-red-600 text-white px-6 py-3 rounded-lg hover:bg-red-700 transition shadow-md font-bold flex items-center justify-center gap-2">
                         Gerar PDF
                     </button>
@@ -168,20 +168,20 @@
 
         <!-- Quick Items Modal -->
         <div id="quick-items-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 modal-backdrop hidden">
-            <div class="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] flex flex-col modal" id="modal-content">
-                <header class="p-4 border-b flex justify-between items-center">
-                    <h2 class="text-xl font-bold">Adicionar Item Rápido</h2>
-                    <button id="close-quick-items-modal" class="text-gray-500 hover:text-gray-800 text-3xl">&times;</button>
+            <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] flex flex-col modal" id="modal-content">
+                <header class="p-4 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
+                    <h2 class="text-xl font-bold text-gray-900 dark:text-white">Adicionar Item Rápido</h2>
+                    <button id="close-quick-items-modal" class="text-gray-500 hover:text-gray-800 dark:hover:text-white text-3xl">&times;</button>
                 </header>
                 <div class="p-6 overflow-y-auto space-y-6">
                     <div>
-                        <h3 class="font-semibold mb-2">Serviços Comuns</h3>
+                        <h3 class="font-semibold mb-2 text-gray-800 dark:text-gray-200">Serviços Comuns</h3>
                         <table class="w-full text-left border-collapse">
-                            <thead class="bg-gray-100">
+                            <thead class="bg-gray-100 dark:bg-gray-700">
                                 <tr>
-                                    <th class="p-3">Descrição</th>
-                                    <th class="p-3 w-32">Valor</th>
-                                    <th class="p-3 w-24">Ação</th>
+                                    <th class="p-3 text-gray-800 dark:text-gray-200">Descrição</th>
+                                    <th class="p-3 w-32 text-gray-800 dark:text-gray-200">Valor</th>
+                                    <th class="p-3 w-24 text-gray-800 dark:text-gray-200">Ação</th>
                                 </tr>
                             </thead>
                             <tbody id="quick-services-table">
@@ -190,13 +190,13 @@
                         </table>
                     </div>
                     <div>
-                        <h3 class="font-semibold mb-2">Peças Comuns</h3>
+                        <h3 class="font-semibold mb-2 text-gray-800 dark:text-gray-200">Peças Comuns</h3>
                         <table class="w-full text-left border-collapse">
-                             <thead class="bg-gray-100">
+                             <thead class="bg-gray-100 dark:bg-gray-700">
                                 <tr>
-                                    <th class="p-3">Descrição</th>
-                                    <th class="p-3 w-32">Valor</th>
-                                    <th class="p-3 w-24">Ação</th>
+                                    <th class="p-3 text-gray-800 dark:text-gray-200">Descrição</th>
+                                    <th class="p-3 w-32 text-gray-800 dark:text-gray-200">Valor</th>
+                                    <th class="p-3 w-24 text-gray-800 dark:text-gray-200">Ação</th>
                                 </tr>
                             </thead>
                             <tbody id="quick-components-table">
@@ -211,6 +211,18 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // --- THEME ---
+            const applyTheme = () => {
+                if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                    document.documentElement.classList.add('dark');
+                } else {
+                    document.documentElement.classList.remove('dark');
+                }
+            }
+            applyTheme();
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', applyTheme);
+
+
             // --- STATE AND CONSTANTS ---
             const { jsPDF } = window.jspdf;
             
@@ -297,8 +309,8 @@
                 const itemDiv = document.createElement('div');
                 itemDiv.className = `flex flex-wrap sm:flex-nowrap items-center gap-2 item-${type}`;
                 itemDiv.innerHTML = `
-                    <input type="text" value="${description}" data-type="description" placeholder="${isService ? 'Descrição do Serviço' : 'Descrição da Peça'}" class="w-full sm:flex-1 p-2 border rounded-lg focus:ring-1 focus:ring-blue-500 transition">
-                    <input type="text" value="${value ? formatCurrency(value) : ''}" data-type="value" placeholder="Valor (R$)" class="currency-input w-full sm:w-32 p-2 border rounded-lg focus:ring-1 focus:ring-blue-500 transition">
+                    <input type="text" value="${description}" data-type="description" placeholder="${isService ? 'Descrição do Serviço' : 'Descrição da Peça'}" class="w-full sm:flex-1 p-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 rounded-lg focus:ring-1 focus:ring-blue-500 transition text-gray-800 dark:text-gray-200">
+                    <input type="text" value="${value ? formatCurrency(value) : ''}" data-type="value" placeholder="Valor (R$)" class="currency-input w-full sm:w-32 p-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 rounded-lg focus:ring-1 focus:ring-blue-500 transition text-gray-800 dark:text-gray-200">
                     <button type="button" class="remove-item-btn bg-red-500 text-white h-10 w-10 flex-shrink-0 flex items-center justify-center rounded-lg hover:bg-red-600 transition">&times;</button>
                 `;
                 list.appendChild(itemDiv);
@@ -349,42 +361,42 @@
 
                 // Services summary
                 const servicesSummary = document.getElementById('services-summary');
-                servicesSummary.innerHTML = '<div><h3 class="font-semibold text-gray-500 uppercase text-sm mb-2">Serviços Contratados</h3></div>';
+                servicesSummary.innerHTML = '<div><h3 class="font-semibold text-gray-500 dark:text-gray-400 uppercase text-sm mb-2">Serviços Contratados</h3></div>';
                 const serviceItems = getItemsFromDOM('service');
                 if(serviceItems.length > 0) {
                     const table = document.createElement('table');
                     table.className = 'w-full text-sm';
-                    table.innerHTML = `<thead><tr class="border-b"><th class="text-left py-1 pr-2">Descrição</th><th class="text-right py-1 pl-2">Valor</th></tr></thead><tbody></tbody>`;
+                    table.innerHTML = `<thead class="dark:text-gray-200"><tr class="border-b dark:border-gray-700"><th class="text-left py-1 pr-2">Descrição</th><th class="text-right py-1 pl-2">Valor</th></tr></thead><tbody></tbody>`;
                     const tbody = table.querySelector('tbody');
                     serviceItems.forEach(item => {
                         servicesTotal += item.value;
                         if(item.desc) {
-                           tbody.innerHTML += `<tr><td class="py-1 pr-2">${item.desc}</td><td class="text-right py-1 pl-2">${formatCurrency(item.value)}</td></tr>`;
+                           tbody.innerHTML += `<tr class="dark:text-gray-300"><td class="py-1 pr-2">${item.desc}</td><td class="text-right py-1 pl-2">${formatCurrency(item.value)}</td></tr>`;
                         }
                     });
                     servicesSummary.appendChild(table);
                 } else {
-                     servicesSummary.innerHTML += '<p class="text-sm text-gray-500 italic">Nenhum serviço adicionado.</p>';
+                     servicesSummary.innerHTML += '<p class="text-sm text-gray-500 dark:text-gray-400 italic">Nenhum serviço adicionado.</p>';
                 }
 
                 // Components summary
                 const componentsSummary = document.getElementById('components-summary');
-                componentsSummary.innerHTML = '<div><h3 class="font-semibold text-gray-500 uppercase text-sm mb-2">Peças e Componentes</h3></div>';
+                componentsSummary.innerHTML = '<div><h3 class="font-semibold text-gray-500 dark:text-gray-400 uppercase text-sm mb-2">Peças e Componentes</h3></div>';
                 const componentItems = getItemsFromDOM('component');
                 if (componentItems.length > 0) {
                     const table = document.createElement('table');
                     table.className = 'w-full text-sm';
-                    table.innerHTML = `<thead><tr class="border-b"><th class="text-left py-1 pr-2">Descrição</th><th class="text-right py-1 pl-2">Valor</th></tr></thead><tbody></tbody>`;
+                    table.innerHTML = `<thead class="dark:text-gray-200"><tr class="border-b dark:border-gray-700"><th class="text-left py-1 pr-2">Descrição</th><th class="text-right py-1 pl-2">Valor</th></tr></thead><tbody></tbody>`;
                     const tbody = table.querySelector('tbody');
                     componentItems.forEach(item => {
                         componentsTotal += item.value;
                         if(item.desc) {
-                            tbody.innerHTML += `<tr><td class="py-1 pr-2">${item.desc}</td><td class="text-right py-1 pl-2">${formatCurrency(item.value)}</td></tr>`;
+                            tbody.innerHTML += `<tr class="dark:text-gray-300"><td class="py-1 pr-2">${item.desc}</td><td class="text-right py-1 pl-2">${formatCurrency(item.value)}</td></tr>`;
                         }
                     });
                      componentsSummary.appendChild(table);
                 } else {
-                    componentsSummary.innerHTML += '<p class="text-sm text-gray-500 italic">Nenhuma peça adicionada.</p>';
+                    componentsSummary.innerHTML += '<p class="text-sm text-gray-500 dark:text-gray-400 italic">Nenhuma peça adicionada.</p>';
                 }
 
                 // Totals
@@ -392,16 +404,16 @@
                 const grandTotal = servicesTotal + componentsTotal;
                 totalsSummary.innerHTML = `
                     <div class="flex justify-end mb-2">
-                        <span class="text-gray-600 w-auto pr-4">Subtotal Serviços:</span>
-                        <span class="font-semibold text-right w-32">${formatCurrency(servicesTotal)}</span>
+                        <span class="text-gray-600 dark:text-gray-400 w-auto pr-4">Subtotal Serviços:</span>
+                        <span class="font-semibold text-right w-32 text-gray-800 dark:text-gray-200">${formatCurrency(servicesTotal)}</span>
                     </div>
                     <div class="flex justify-end mb-4">
-                        <span class="text-gray-600 w-auto pr-4">Subtotal Peças:</span>
-                        <span class="font-semibold text-right w-32">${formatCurrency(componentsTotal)}</span>
+                        <span class="text-gray-600 dark:text-gray-400 w-auto pr-4">Subtotal Peças:</span>
+                        <span class="font-semibold text-right w-32 text-gray-800 dark:text-gray-200">${formatCurrency(componentsTotal)}</span>
                     </div>
                     <div class="flex justify-end items-center">
-                        <span class="text-xl font-bold text-gray-800 w-auto pr-4">TOTAL:</span>
-                        <span class="text-2xl font-bold text-blue-600 text-right w-32">${formatCurrency(grandTotal)}</span>
+                        <span class="text-xl font-bold text-gray-800 dark:text-white w-auto pr-4">TOTAL:</span>
+                        <span class="text-2xl font-bold text-blue-600 dark:text-blue-400 text-right w-32">${formatCurrency(grandTotal)}</span>
                     </div>
                 `;
             };
@@ -414,9 +426,9 @@
 
                 QUICK_SERVICES.forEach(item => {
                     const row = `
-                        <tr class="border-b hover:bg-gray-50">
-                            <td class="p-3">${item.desc}</td>
-                            <td class="p-3">${formatCurrency(item.price)}</td>
+                        <tr class="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700">
+                            <td class="p-3 text-gray-800 dark:text-gray-200">${item.desc}</td>
+                            <td class="p-3 text-gray-800 dark:text-gray-200">${formatCurrency(item.price)}</td>
                             <td class="p-3"><button data-type="service" data-desc="${item.desc}" data-price="${item.price}" class="add-quick-item-btn bg-blue-500 text-white px-3 py-1 rounded-md text-sm">Adicionar</button></td>
                         </tr>
                     `;
@@ -425,9 +437,9 @@
 
                 QUICK_COMPONENTS.forEach(item => {
                     const row = `
-                         <tr class="border-b hover:bg-gray-50">
-                            <td class="p-3">${item.desc}</td>
-                            <td class="p-3">${formatCurrency(item.price)}</td>
+                         <tr class="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700">
+                            <td class="p-3 text-gray-800 dark:text-gray-200">${item.desc}</td>
+                            <td class="p-3 text-gray-800 dark:text-gray-200">${formatCurrency(item.price)}</td>
                             <td class="p-3"><button data-type="component" data-desc="${item.desc}" data-price="${item.price}" class="add-quick-item-btn bg-green-500 text-white px-3 py-1 rounded-md text-sm">Adicionar</button></td>
                         </tr>
                     `;
