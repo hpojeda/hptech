@@ -3,330 +3,731 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gerador de Orçamento - Manutenção de PC</title>
+    <title>Gerador de Orçamento de TI</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://unpkg.com/jspdf-autotable"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Inter', sans-serif;
         }
-        .item-row {
-            animation: fadeIn 0.3s ease-out;
+        /* Para esconder o botão de teste, descomente a linha abaixo */
+        /* .dev-only { display: none; } */
+        .modal-backdrop {
+            background-color: rgba(0,0,0,0.5);
         }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
+        .modal {
+            transition: opacity 0.3s ease;
         }
-        /* Custom scrollbar for better aesthetics */
-        ::-webkit-scrollbar {
-            width: 8px;
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
         }
-        ::-webkit-scrollbar-track {
-            background: #2d3748; /* bg-gray-800 */
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #4a5568; /* bg-gray-600 */
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #718096; /* bg-gray-500 */
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
     </style>
 </head>
-<body class="bg-gray-900 text-white antialiased">
+<body class="bg-gray-100 text-gray-800">
 
-    <div class="container mx-auto max-w-4xl p-4 sm:p-6 md:p-8">
-        <!-- Cabeçalho -->
+    <div class="max-w-5xl mx-auto p-4 md:p-8">
         <header class="text-center mb-8">
-            <h1 class="text-3xl sm:text-4xl font-bold text-cyan-400">Gerador de Orçamento</h1>
-            <p class="text-gray-400 mt-2">Crie e compartilhe orçamentos de manutenção de forma rápida.</p>
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-900">Gerador de Orçamento</h1>
+            <p class="text-gray-600 mt-2">Crie e compartilhe orçamentos de manutenção de forma rápida e profissional.</p>
         </header>
 
-        <!-- Formulário Principal -->
-        <main class="bg-gray-800 p-6 sm:p-8 rounded-2xl shadow-2xl space-y-8">
-            
-            <!-- Seção de Dados do Cliente e Equipamento -->
-            <section class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="space-y-4">
-                    <h2 class="text-xl font-semibold border-l-4 border-cyan-400 pl-3">Dados do Cliente</h2>
-                    <div>
-                        <label for="clientName" class="block text-sm font-medium text-gray-300 mb-1">Nome do Cliente</label>
-                        <input type="text" id="clientName" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition" placeholder="Ex: João da Silva">
-                    </div>
-                    <div>
-                        <label for="clientContact" class="block text-sm font-medium text-gray-300 mb-1">Contato (Telefone/Email)</label>
-                        <input type="text" id="clientContact" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition" placeholder="Ex: (11) 99999-8888">
-                    </div>
+        <main id="app" class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Input Form Section -->
+            <div id="quote-form" class="bg-white p-6 rounded-2xl shadow-lg">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl font-semibold">Preencha os Dados</h2>
+                    <button id="test-data-btn" class="dev-only bg-yellow-400 text-yellow-900 px-3 py-1 rounded-lg hover:bg-yellow-500 transition text-sm font-semibold">Teste</button>
                 </div>
-                <div class="space-y-4">
-                    <h2 class="text-xl font-semibold border-l-4 border-cyan-400 pl-3">Dados do Equipamento</h2>
-                    <div>
-                        <label for="deviceBrand" class="block text-sm font-medium text-gray-300 mb-1">Marca</label>
-                        <input type="text" id="deviceBrand" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition" placeholder="Ex: Dell, HP, Apple">
-                    </div>
-                    <div>
-                        <label for="deviceModel" class="block text-sm font-medium text-gray-300 mb-1">Modelo</label>
-                        <input type="text" id="deviceModel" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition" placeholder="Ex: Inspiron 15, Pavilion, MacBook Pro">
-                    </div>
-                </div>
-            </section>
-            
-            <!-- Linha Divisória -->
-            <hr class="border-gray-700">
 
-            <!-- Seção de Serviços -->
-            <section>
-                <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-xl font-semibold border-l-4 border-cyan-400 pl-3">Serviços Prestados</h2>
-                    <button id="add-service" class="bg-cyan-600 hover:bg-cyan-500 text-white font-bold py-2 px-4 rounded-lg transition shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-cyan-500">
-                        + Adicionar Serviço
+                <form id="main-form" class="space-y-6">
+                    <!-- Your/Company Data Section -->
+                    <div class="border-b pb-6">
+                        <h3 class="text-lg font-semibold mb-4 text-gray-700">1. Seus Dados (Salvo Automaticamente)</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <input type="text" id="yourName" placeholder="Seu Nome" class="p-3 border rounded-lg focus:ring-2 focus:ring-purple-500">
+                            <input type="text" id="companyName" placeholder="Nome da Empresa" class="p-3 border rounded-lg focus:ring-2 focus:ring-purple-500">
+                            <input type="tel" id="yourPhone" placeholder="Seu Celular" class="p-3 border rounded-lg focus:ring-2 focus:ring-purple-500">
+                            <input type="email" id="yourEmail" placeholder="Seu Email" class="p-3 border rounded-lg focus:ring-2 focus:ring-purple-500">
+                        </div>
+                    </div>
+
+                    <!-- Client and Equipment Section -->
+                    <div class="border-b pb-6">
+                        <h3 class="text-lg font-semibold mb-4 text-gray-700">2. Dados do Cliente e Equipamento</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <input type="text" id="clientName" placeholder="Nome do Cliente" class="p-3 border rounded-lg focus:ring-2 focus:ring-blue-500">
+                            <input type="tel" id="clientPhone" placeholder="Celular do Cliente" class="p-3 border rounded-lg focus:ring-2 focus:ring-blue-500">
+                            <input type="email" id="clientEmail" placeholder="Email do Cliente" class="p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 col-span-2">
+                            <input type="text" id="pcBrand" placeholder="Marca do Equipamento" class="p-3 border rounded-lg focus:ring-2 focus:ring-blue-500">
+                            <input type="text" id="pcModel" placeholder="Modelo do Equipamento" class="p-3 border rounded-lg focus:ring-2 focus:ring-blue-500">
+                        </div>
+                    </div>
+                    
+                    <!-- Quick Add Section -->
+                    <div class="border-b pb-6">
+                        <h3 class="text-lg font-semibold mb-4 text-gray-700">3. Itens</h3>
+                         <button type="button" id="open-quick-items-modal" class="w-full bg-indigo-500 text-white px-4 py-3 rounded-lg hover:bg-indigo-600 transition shadow font-medium">Adicionar Item Rápido</button>
+                    </div>
+
+                    <!-- Manual Add Sections -->
+                    <div class="border-b pb-6">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-lg font-semibold text-gray-700">Serviços Adicionados</h3>
+                            <button type="button" id="add-service" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition shadow font-medium">+ Manual</button>
+                        </div>
+                        <div id="services-list" class="space-y-3"></div>
+                    </div>
+
+                    <div class="border-b pb-6">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-lg font-semibold text-gray-700">Peças Adicionadas</h3>
+                            <button type="button" id="add-component" class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition shadow font-medium">+ Manual</button>
+                        </div>
+                        <div id="components-list" class="space-y-3"></div>
+                    </div>
+                    
+                    <!-- Deadlines and Details Section -->
+                    <div>
+                         <h3 class="text-lg font-semibold mb-4 text-gray-700">Prazos e Detalhes</h3>
+                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                             <input type="text" id="parts-deadline" placeholder="Prazo de chegada das peças" class="p-3 border rounded-lg focus:ring-2 focus:ring-indigo-500">
+                             <input type="text" id="service-deadline" placeholder="Prazo de finalização" class="p-3 border rounded-lg focus:ring-2 focus:ring-indigo-500">
+                         </div>
+                         <textarea id="details" placeholder="Detalhes, observações, garantia..." class="w-full p-3 border rounded-lg h-24 focus:ring-2 focus:ring-indigo-500"></textarea>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Output/Preview Section -->
+            <div class="space-y-8">
+                <div id="quote-output-container" class="bg-white p-6 rounded-2xl shadow-lg relative">
+                    <div id="quote-output" class="bg-white p-4">
+                        <header class="flex justify-between items-start pb-4 border-b-2 border-gray-200 mb-4">
+                            <div>
+                               <h2 class="text-2xl font-bold text-gray-900" id="company-name-output">Sua Empresa</h2>
+                               <p class="text-sm text-gray-600" id="your-name-output">Seu Nome</p>
+                               <p class="text-sm text-gray-600" id="your-contact-output">Seu Contato</p>
+                            </div>
+                            <div class="text-right">
+                               <h2 class="text-2xl font-bold text-gray-900">Orçamento</h2>
+                               <p class="text-sm text-gray-500">Data: <span id="quote-date"></span></p>
+                            </div>
+                        </header>
+                        <div class="mb-6">
+                            <h3 class="font-semibold text-gray-500 uppercase text-sm mb-2">Cliente</h3>
+                            <p id="client-name-output" class="font-medium">Nome do Cliente</p>
+                            <p id="client-contact-output" class="text-gray-600">Contato</p>
+                        </div>
+                        <div class="mb-6">
+                            <h3 class="font-semibold text-gray-500 uppercase text-sm mb-2">Equipamento</h3>
+                            <p id="pc-brand-model-output" class="font-medium">Marca - Modelo</p>
+                        </div>
+                        <div id="services-summary" class="mb-6"></div>
+                        <div id="components-summary" class="mb-6"></div>
+                        <div class="border-t pt-4 mt-4">
+                            <h3 class="font-semibold text-gray-500 uppercase text-sm mb-2">Prazos</h3>
+                            <p id="parts-deadline-output" class="text-sm text-gray-700"></p>
+                            <p id="service-deadline-output" class="text-sm text-gray-700"></p>
+                        </div>
+                        <div class="border-t pt-4 mt-4">
+                             <h3 class="font-semibold text-gray-500 uppercase text-sm mb-2">Detalhes</h3>
+                             <p id="details-output" class="text-sm text-gray-700 whitespace-pre-wrap">Nenhuma observação.</p>
+                        </div>
+                        <div id="totals-summary" class="mt-8 pt-4 border-t-2 border-dashed"></div>
+                    </div>
+                </div>
+                 <!-- Action Buttons -->
+                <div class="bg-white p-4 rounded-2xl shadow-lg flex flex-col md:flex-row gap-3 no-print">
+                    <button id="generate-pdf" class="w-full bg-red-600 text-white px-6 py-3 rounded-lg hover:bg-red-700 transition shadow-md font-bold flex items-center justify-center gap-2">
+                        Gerar PDF
+                    </button>
+                    <button id="share-image" class="w-full bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition shadow-md font-bold flex items-center justify-center gap-2">
+                        Compartilhar Imagem
+                    </button>
+                    <button id="copy-text" class="w-full bg-gray-600 text-white px-6 py-3 rounded-lg hover:bg-gray-700 transition shadow-md font-bold flex items-center justify-center gap-2">
+                        Copiar Texto
                     </button>
                 </div>
-                <div id="services-list" class="space-y-3">
-                    <!-- Linhas de serviço serão adicionadas aqui via JS -->
-                </div>
-            </section>
-
-            <!-- Seção de Peças -->
-            <section>
-                <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-xl font-semibold border-l-4 border-cyan-400 pl-3">Peças / Componentes</h2>
-                    <button id="add-part" class="bg-cyan-600 hover:bg-cyan-500 text-white font-bold py-2 px-4 rounded-lg transition shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-cyan-500">
-                        + Adicionar Peça
-                    </button>
-                </div>
-                <div id="parts-list" class="space-y-3">
-                    <!-- Linhas de peças serão adicionadas aqui via JS -->
-                </div>
-            </section>
-
-            <!-- Linha Divisória -->
-            <hr class="border-gray-700">
-
-            <!-- Seção Total -->
-            <section class="flex justify-end items-center mt-6">
-                <h2 class="text-2xl font-bold mr-4 text-gray-300">Valor Total:</h2>
-                <div id="total-value" class="text-3xl font-bold text-green-400 bg-gray-900 px-6 py-3 rounded-lg shadow-inner">
-                    R$ 0,00
-                </div>
-            </section>
-
-            <!-- Seção de Ações -->
-            <section class="flex flex-col sm:flex-row justify-center items-center gap-4 mt-8 pt-6 border-t border-gray-700">
-                 <button id="generate-budget" class="w-full sm:w-auto bg-green-600 hover:bg-green-500 text-white font-bold py-3 px-8 rounded-lg text-lg transition shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-green-500">
-                    Gerar e Compartilhar Orçamento
-                </button>
-                <button id="reset-form" type="button" class="w-full sm:w-auto bg-gray-600 hover:bg-gray-500 text-white font-bold py-3 px-6 rounded-lg transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-gray-500">
-                    Limpar Tudo
-                </button>
-            </section>
+            </div>
         </main>
-    </div>
-
-    <!-- Modal para notificação -->
-    <div id="notification" class="fixed bottom-5 right-5 bg-cyan-500 text-white py-2 px-4 rounded-lg shadow-lg transition-transform translate-y-20 opacity-0">
-        Orçamento copiado para a área de transferência!
-    </div>
-
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-    // Seletores dos elementos principais
-    const addServiceBtn = document.getElementById('add-service');
-    const addPartBtn = document.getElementById('add-part');
-    const servicesList = document.getElementById('services-list');
-    const partsList = document.getElementById('parts-list');
-    const generateBtn = document.getElementById('generate-budget');
-    const resetBtn = document.getElementById('reset-form');
-
-    // Contador para IDs únicos
-    let itemId = 0;
-
-    /**
-     * Adiciona um novo item (serviço ou peça) à lista correspondente.
-     * @param {string} type - 'service' ou 'part'
-     * @param {string} listElementId - ID do elemento da lista (services-list ou parts-list)
-     */
-    const addItem = (type, listElementId) => {
-        itemId++;
-        const list = document.getElementById(listElementId);
         
-        const placeholderText = type === 'service' ? 'Ex: Formatação com backup' : 'Ex: SSD 240GB Kingston';
-        const itemRow = document.createElement('div');
-        itemRow.classList.add('flex', 'gap-2', 'items-center', 'item-row');
-        itemRow.setAttribute('data-id', itemId);
+        <!-- Toast Notification -->
+        <div id="toast" class="fixed bottom-5 right-5 bg-gray-800 text-white py-3 px-5 rounded-lg shadow-xl opacity-0 translate-y-10 transition-all duration-300"></div>
 
-        itemRow.innerHTML = `
-            <div class="flex-grow">
-                <input type="text" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition ${type}-desc" placeholder="${placeholderText}">
-            </div>
-            <div class="w-32">
-                <div class="relative">
-                    <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-400">R$</span>
-                    <input type="number" step="0.01" min="0" class="w-full bg-gray-700 border border-gray-600 rounded-lg pl-9 pr-2 py-2 text-right focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition item-value ${type}-value" placeholder="0.00">
+        <!-- Quick Items Modal -->
+        <div id="quick-items-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 modal-backdrop hidden">
+            <div class="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] flex flex-col modal" id="modal-content">
+                <header class="p-4 border-b flex justify-between items-center">
+                    <h2 class="text-xl font-bold">Adicionar Item Rápido</h2>
+                    <button id="close-quick-items-modal" class="text-gray-500 hover:text-gray-800 text-3xl">&times;</button>
+                </header>
+                <div class="p-6 overflow-y-auto space-y-6">
+                    <div>
+                        <h3 class="font-semibold mb-2">Serviços Comuns</h3>
+                        <table class="w-full text-left border-collapse">
+                            <thead class="bg-gray-100">
+                                <tr>
+                                    <th class="p-3">Descrição</th>
+                                    <th class="p-3 w-32">Valor</th>
+                                    <th class="p-3 w-24">Ação</th>
+                                </tr>
+                            </thead>
+                            <tbody id="quick-services-table">
+                                <!-- Quick services will be populated here -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold mb-2">Peças Comuns</h3>
+                        <table class="w-full text-left border-collapse">
+                             <thead class="bg-gray-100">
+                                <tr>
+                                    <th class="p-3">Descrição</th>
+                                    <th class="p-3 w-32">Valor</th>
+                                    <th class="p-3 w-24">Ação</th>
+                                </tr>
+                            </thead>
+                            <tbody id="quick-components-table">
+                                <!-- Quick components will be populated here -->
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
-            <button type="button" class="remove-item bg-red-600 hover:bg-red-500 text-white font-bold p-2 rounded-lg transition h-10 w-10 flex items-center justify-center">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm4 0a1 1 0 012 0v6a1 1 0 11-2 0V8z" clip-rule="evenodd" /></svg>
-            </button>
-        `;
+        </div>
+    </div>
 
-        list.appendChild(itemRow);
-        itemRow.querySelector('input').focus();
-        
-        // Adiciona event listener para o novo input de valor e botão de remoção
-        itemRow.querySelector('.item-value').addEventListener('input', updateTotal);
-        itemRow.querySelector('.remove-item').addEventListener('click', () => {
-            itemRow.remove();
-            updateTotal();
-        });
-        updateTotal(); // Atualiza o total ao adicionar um novo item com valor 0
-    };
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- STATE AND CONSTANTS ---
+            const { jsPDF } = window.jspdf;
+            
+            const QUICK_SERVICES = [
+                { desc: 'Formatação e instalação de sistema operacional com backup', price: 150.00 },
+                { desc: 'Limpeza interna completa com troca de pasta térmica', price: 120.00 },
+                { desc: 'Instalação de SSD com clonagem do sistema', price: 100.00 },
+                { desc: 'Reparo em carcaça/dobradiça', price: 180.00 },
+            ];
 
-    /**
-     * Calcula e atualiza o valor total do orçamento.
-     */
-    const updateTotal = () => {
-        const valueInputs = document.querySelectorAll('.item-value');
-        let total = 0;
-        valueInputs.forEach(input => {
-            const value = parseFloat(input.value) || 0;
-            total += value;
-        });
+            const QUICK_COMPONENTS = [
+                { desc: 'SSD 2.5" SATA 240GB', price: 180.00 },
+                { desc: 'SSD M.2 NVMe 512GB', price: 350.00 },
+                { desc: 'Memória RAM DDR4 8GB Notebook', price: 250.00 },
+                { desc: 'Fonte Carregador Universal', price: 120.00 },
+            ];
 
-        const totalValueEl = document.getElementById('total-value');
-        totalValueEl.textContent = total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-    };
+            // --- DOM ELEMENTS ---
+            const mainForm = document.getElementById('main-form');
+            const generatePdfBtn = document.getElementById('generate-pdf');
+            const shareImageBtn = document.getElementById('share-image');
+            const copyTextBtn = document.getElementById('copy-text');
+            const toast = document.getElementById('toast');
+            const testDataBtn = document.getElementById('test-data-btn');
+            
+            // Modal elements
+            const openModalBtn = document.getElementById('open-quick-items-modal');
+            const closeModalBtn = document.getElementById('close-quick-items-modal');
+            const modal = document.getElementById('quick-items-modal');
+            const modalContent = document.getElementById('modal-content');
 
-    /**
-     * Gera o texto do orçamento com base nos dados do formulário.
-     * @returns {string} O texto formatado do orçamento.
-     */
-    const generateBudgetText = () => {
-        const clientName = document.getElementById('clientName').value.trim();
-        const clientContact = document.getElementById('clientContact').value.trim();
-        const deviceBrand = document.getElementById('deviceBrand').value.trim();
-        const deviceModel = document.getElementById('deviceModel').value.trim();
-        const total = document.getElementById('total-value').textContent;
+            // --- FUNCTIONS ---
 
-        let budgetString = `📄 *ORÇAMENTO DE MANUTENÇÃO*\n\n`;
-        budgetString += `*Data:* ${new Date().toLocaleDateString('pt-BR')}\n\n`;
-        
-        if (clientName) budgetString += `👤 *Cliente:* ${clientName}\n`;
-        if (clientContact) budgetString += `📞 *Contato:* ${clientContact}\n\n`;
-        
-        if (deviceBrand || deviceModel) {
-            budgetString += `💻 *Equipamento:* ${deviceBrand} ${deviceModel}\n\n`;
-        }
+            const showToast = (message) => {
+                toast.textContent = message;
+                toast.classList.remove('opacity-0', 'translate-y-10');
+                setTimeout(() => {
+                     toast.classList.add('opacity-0', 'translate-y-10');
+                }, 3000);
+            };
+            
+            const saveCompanyData = () => {
+                localStorage.setItem('yourName', document.getElementById('yourName').value);
+                localStorage.setItem('companyName', document.getElementById('companyName').value);
+                localStorage.setItem('yourPhone', document.getElementById('yourPhone').value);
+                localStorage.setItem('yourEmail', document.getElementById('yourEmail').value);
+            };
 
-        budgetString += `*SERVIÇOS PRESTADOS:*\n`;
-        const services = document.querySelectorAll('#services-list .item-row');
-        if (services.length > 0) {
-            services.forEach(item => {
-                const desc = item.querySelector('.service-desc').value.trim();
-                const value = parseFloat(item.querySelector('.service-value').value) || 0;
-                if (desc) {
-                    budgetString += `  - ${desc}: ${value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}\n`;
-                }
-            });
-        } else {
-            budgetString += `  (Nenhum serviço adicionado)\n`;
-        }
-        
-        budgetString += `\n*PEÇAS / COMPONENTES:*\n`;
-        const parts = document.querySelectorAll('#parts-list .item-row');
-        if (parts.length > 0) {
-            parts.forEach(item => {
-                const desc = item.querySelector('.part-desc').value.trim();
-                const value = parseFloat(item.querySelector('.part-value').value) || 0;
-                if (desc) {
-                    budgetString += `  - ${desc}: ${value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}\n`;
-                }
-            });
-        } else {
-            budgetString += `  (Nenhuma peça adicionada)\n`;
-        }
+            const loadCompanyData = () => {
+                document.getElementById('yourName').value = localStorage.getItem('yourName') || '';
+                document.getElementById('companyName').value = localStorage.getItem('companyName') || '';
+                document.getElementById('yourPhone').value = localStorage.getItem('yourPhone') || '';
+                document.getElementById('yourEmail').value = localStorage.getItem('yourEmail') || '';
+            };
 
-        budgetString += `\n--------------------\n`;
-        budgetString += `💰 *VALOR TOTAL:* *${total}*\n`;
-        budgetString += `--------------------\n\n`;
-        budgetString += `Agradeço pela preferência!`;
-
-        return budgetString;
-    };
-
-    /**
-     * Mostra uma notificação na tela.
-     * @param {string} message - A mensagem a ser exibida.
-     */
-    const showNotification = (message) => {
-        const notification = document.getElementById('notification');
-        notification.textContent = message;
-        notification.classList.remove('opacity-0', 'translate-y-20');
-        setTimeout(() => {
-            notification.classList.add('opacity-0', 'translate-y-20');
-        }, 3000);
-    };
-
-    // Event Listeners
-    addServiceBtn.addEventListener('click', () => addItem('service', 'services-list'));
-    addPartBtn.addEventListener('click', () => addItem('part', 'parts-list'));
-    
-    generateBtn.addEventListener('click', async () => {
-        const budgetText = generateBudgetText();
-        
-        // Tenta usar a API de Compartilhamento (ótima para mobile)
-        if (navigator.share) {
-            try {
-                await navigator.share({
-                    title: 'Orçamento de Manutenção',
-                    text: budgetText,
-                });
-            } catch (error) {
-                console.error('Erro ao compartilhar:', error);
+            const formatCurrency = (value) => {
+                if (isNaN(value)) return 'R$ 0,00';
+                return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value);
+            };
+            
+            const formatPhone = (value) => {
+                if (!value) return "";
+                value = value.replace(/\D/g,'');
+                value = value.replace(/^(\d{2})(\d)/g,"($1) $2");
+                value = value.replace(/(\d{5})(\d{4})$/,"$1-$2");
+                return value;
             }
-        } else {
-            // Fallback para desktop: Copiar para a área de transferência
-            try {
-                // Usa a API de Clipboard que é mais moderna e segura
-                await navigator.clipboard.writeText(budgetText);
-                showNotification('Orçamento copiado para a área de transferência!');
-            } catch (err) {
-                // Fallback do fallback para navegadores antigos
-                const textArea = document.createElement('textarea');
-                textArea.value = budgetText;
-                document.body.appendChild(textArea);
-                textArea.focus();
-                textArea.select();
+
+            const formatCurrencyInput = (input) => {
+                let value = input.value.replace(/\D/g, '');
+                if (value === '') {
+                    input.value = '';
+                    return;
+                }
+                value = (parseInt(value, 10) / 100).toFixed(2) + '';
+                value = value.replace('.', ',');
+                value = value.replace(/(\d)(?=(\d{3})+(?!\d{2}))/g, '$1.');
+                input.value = 'R$ ' + value;
+            };
+
+            const createItem = (type, description = '', value = '') => {
+                const isService = type === 'service';
+                const list = isService ? document.getElementById('services-list') : document.getElementById('components-list');
+                const itemDiv = document.createElement('div');
+                itemDiv.className = `flex flex-wrap sm:flex-nowrap items-center gap-2 item-${type}`;
+                itemDiv.innerHTML = `
+                    <input type="text" value="${description}" data-type="description" placeholder="${isService ? 'Descrição do Serviço' : 'Descrição da Peça'}" class="w-full sm:flex-1 p-2 border rounded-lg focus:ring-1 focus:ring-blue-500 transition">
+                    <input type="text" value="${value ? formatCurrency(value) : ''}" data-type="value" placeholder="Valor (R$)" class="currency-input w-full sm:w-32 p-2 border rounded-lg focus:ring-1 focus:ring-blue-500 transition">
+                    <button type="button" class="remove-item-btn bg-red-500 text-white h-10 w-10 flex-shrink-0 flex items-center justify-center rounded-lg hover:bg-red-600 transition">&times;</button>
+                `;
+                list.appendChild(itemDiv);
+                itemDiv.querySelector('.currency-input').addEventListener('input', (e) => formatCurrencyInput(e.target));
+                updatePreview();
+            };
+
+            const getItemsFromDOM = (type) => {
+                const list = document.getElementById(`${type}s-list`);
+                if (!list) return []; // Guard clause to prevent error if element is not found
+                return Array.from(list.querySelectorAll(`.item-${type}`)).map(item => {
+                    const desc = item.querySelector('[data-type="description"]').value;
+                    const valueStr = item.querySelector('[data-type="value"]').value.replace(/[^\d,]/g, '').replace(',', '.');
+                    const value = parseFloat(valueStr) || 0;
+                    return { desc, value };
+                });
+            };
+
+            const updatePreview = () => {
+                // Your Data
+                document.getElementById('your-name-output').textContent = document.getElementById('yourName').value || 'Seu Nome';
+                document.getElementById('company-name-output').textContent = document.getElementById('companyName').value || 'Sua Empresa';
+                const yourPhone = document.getElementById('yourPhone').value;
+                const yourEmail = document.getElementById('yourEmail').value;
+                document.getElementById('your-contact-output').textContent = `${yourPhone}${yourPhone && yourEmail ? ' | ' : ''}${yourEmail}`;
+
+                // Client Data
+                document.getElementById('quote-date').textContent = new Date().toLocaleDateString('pt-BR');
+                document.getElementById('client-name-output').textContent = document.getElementById('clientName').value || 'Nome do Cliente';
+                const clientPhone = document.getElementById('clientPhone').value;
+                const clientEmail = document.getElementById('clientEmail').value;
+                document.getElementById('client-contact-output').textContent = `${clientPhone}${clientPhone && clientEmail ? ' | ' : ''}${clientEmail}`;
+
+                // Equipment
+                const brand = document.getElementById('pcBrand').value || 'Marca';
+                const model = document.getElementById('pcModel').value || 'Modelo';
+                document.getElementById('pc-brand-model-output').textContent = `${brand} - ${model}`;
+
+                // Deadlines & Details
+                document.getElementById('details-output').textContent = document.getElementById('details').value || 'Nenhuma observação.';
+                const partsDeadline = document.getElementById('parts-deadline').value;
+                document.getElementById('parts-deadline-output').textContent = partsDeadline ? `Previsão de chegada das peças: ${partsDeadline}` : '';
+                const serviceDeadline = document.getElementById('service-deadline').value;
+                document.getElementById('service-deadline-output').textContent = serviceDeadline ? `Prazo de finalização do serviço: ${serviceDeadline}` : '';
+
+                let servicesTotal = 0;
+                let componentsTotal = 0;
+
+                // Services summary
+                const servicesSummary = document.getElementById('services-summary');
+                servicesSummary.innerHTML = '<div><h3 class="font-semibold text-gray-500 uppercase text-sm mb-2">Serviços Contratados</h3></div>';
+                const serviceItems = getItemsFromDOM('service');
+                if(serviceItems.length > 0) {
+                    const table = document.createElement('table');
+                    table.className = 'w-full text-sm';
+                    table.innerHTML = `<thead><tr class="border-b"><th class="text-left py-1 pr-2">Descrição</th><th class="text-right py-1 pl-2">Valor</th></tr></thead><tbody></tbody>`;
+                    const tbody = table.querySelector('tbody');
+                    serviceItems.forEach(item => {
+                        servicesTotal += item.value;
+                        if(item.desc) {
+                           tbody.innerHTML += `<tr><td class="py-1 pr-2">${item.desc}</td><td class="text-right py-1 pl-2">${formatCurrency(item.value)}</td></tr>`;
+                        }
+                    });
+                    servicesSummary.appendChild(table);
+                } else {
+                     servicesSummary.innerHTML += '<p class="text-sm text-gray-500 italic">Nenhum serviço adicionado.</p>';
+                }
+
+                // Components summary
+                const componentsSummary = document.getElementById('components-summary');
+                componentsSummary.innerHTML = '<div><h3 class="font-semibold text-gray-500 uppercase text-sm mb-2">Peças e Componentes</h3></div>';
+                const componentItems = getItemsFromDOM('component');
+                if (componentItems.length > 0) {
+                    const table = document.createElement('table');
+                    table.className = 'w-full text-sm';
+                    table.innerHTML = `<thead><tr class="border-b"><th class="text-left py-1 pr-2">Descrição</th><th class="text-right py-1 pl-2">Valor</th></tr></thead><tbody></tbody>`;
+                    const tbody = table.querySelector('tbody');
+                    componentItems.forEach(item => {
+                        componentsTotal += item.value;
+                        if(item.desc) {
+                            tbody.innerHTML += `<tr><td class="py-1 pr-2">${item.desc}</td><td class="text-right py-1 pl-2">${formatCurrency(item.value)}</td></tr>`;
+                        }
+                    });
+                     componentsSummary.appendChild(table);
+                } else {
+                    componentsSummary.innerHTML += '<p class="text-sm text-gray-500 italic">Nenhuma peça adicionada.</p>';
+                }
+
+                // Totals
+                const totalsSummary = document.getElementById('totals-summary');
+                const grandTotal = servicesTotal + componentsTotal;
+                totalsSummary.innerHTML = `
+                    <div class="flex justify-end mb-2">
+                        <span class="text-gray-600 w-auto pr-4">Subtotal Serviços:</span>
+                        <span class="font-semibold text-right w-32">${formatCurrency(servicesTotal)}</span>
+                    </div>
+                    <div class="flex justify-end mb-4">
+                        <span class="text-gray-600 w-auto pr-4">Subtotal Peças:</span>
+                        <span class="font-semibold text-right w-32">${formatCurrency(componentsTotal)}</span>
+                    </div>
+                    <div class="flex justify-end items-center">
+                        <span class="text-xl font-bold text-gray-800 w-auto pr-4">TOTAL:</span>
+                        <span class="text-2xl font-bold text-blue-600 text-right w-32">${formatCurrency(grandTotal)}</span>
+                    </div>
+                `;
+            };
+            
+            const populateQuickItems = () => {
+                const servicesTable = document.getElementById('quick-services-table');
+                const componentsTable = document.getElementById('quick-components-table');
+                servicesTable.innerHTML = '';
+                componentsTable.innerHTML = '';
+
+                QUICK_SERVICES.forEach(item => {
+                    const row = `
+                        <tr class="border-b hover:bg-gray-50">
+                            <td class="p-3">${item.desc}</td>
+                            <td class="p-3">${formatCurrency(item.price)}</td>
+                            <td class="p-3"><button data-type="service" data-desc="${item.desc}" data-price="${item.price}" class="add-quick-item-btn bg-blue-500 text-white px-3 py-1 rounded-md text-sm">Adicionar</button></td>
+                        </tr>
+                    `;
+                    servicesTable.innerHTML += row;
+                });
+
+                QUICK_COMPONENTS.forEach(item => {
+                    const row = `
+                         <tr class="border-b hover:bg-gray-50">
+                            <td class="p-3">${item.desc}</td>
+                            <td class="p-3">${formatCurrency(item.price)}</td>
+                            <td class="p-3"><button data-type="component" data-desc="${item.desc}" data-price="${item.price}" class="add-quick-item-btn bg-green-500 text-white px-3 py-1 rounded-md text-sm">Adicionar</button></td>
+                        </tr>
+                    `;
+                    componentsTable.innerHTML += row;
+                });
+            };
+
+            const copyQuoteAsText = () => {
+                let text = `--- ORÇAMENTO DE MANUTENÇÃO ---\n\n`;
+                text += `DE:\n`;
+                text += `${document.getElementById('companyName').value || 'N/A'}\n`;
+                text += `${document.getElementById('yourName').value || 'N/A'}\n`;
+                text += `${document.getElementById('yourPhone').value || 'N/A'} | ${document.getElementById('yourEmail').value || 'N/A'}\n\n`;
+                
+                text += `PARA:\n`;
+                text += `Cliente: ${document.getElementById('clientName').value || 'N/A'}\n`;
+                text += `Contato: ${document.getElementById('clientPhone').value || 'N/A'} | ${document.getElementById('clientEmail').value || 'N/A'}\n\n`;
+                
+                text += `EQUIPAMENTO:\n`;
+                text += `${document.getElementById('pcBrand').value || 'N/A'} - ${document.getElementById('pcModel').value || 'N/A'}\n\n`;
+                
+                let servicesTotal = 0;
+                const serviceItems = getItemsFromDOM('service');
+                if (serviceItems.length > 0) {
+                    text += `--- SERVIÇOS ---\n`;
+                    serviceItems.forEach(item => {
+                        text += `${item.desc}: ${formatCurrency(item.value)}\n`;
+                        servicesTotal += item.value;
+                    });
+                }
+
+                let componentsTotal = 0;
+                const componentItems = getItemsFromDOM('component');
+                if (componentItems.length > 0) {
+                    text += `\n--- PEÇAS/COMPONENTES ---\n`;
+                    componentItems.forEach(item => {
+                        text += `${item.desc}: ${formatCurrency(item.value)}\n`;
+                        componentsTotal += item.value;
+                    });
+                }
+
+                text += `\n--- PRAZOS E DETALHES ---\n`;
+                text += `Chegada das Peças: ${document.getElementById('parts-deadline').value || 'N/A'}\n`;
+                text += `Finalização do Serviço: ${document.getElementById('service-deadline').value || 'N/A'}\n`;
+                text += `Detalhes: ${document.getElementById('details').value || 'Nenhuma observação.'}\n\n`;
+                
+                text += `--- TOTAL ---\n`;
+                text += `Subtotal Serviços: ${formatCurrency(servicesTotal)}\n`;
+                text += `Subtotal Peças: ${formatCurrency(componentsTotal)}\n`;
+                text += `VALOR TOTAL: ${formatCurrency(servicesTotal + componentsTotal)}\n`;
+                
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                document.body.appendChild(textarea);
+                textarea.select();
                 try {
                     document.execCommand('copy');
-                    showNotification('Orçamento copiado para a área de transferência!');
-                } catch (copyErr) {
-                    console.error('Falha ao copiar o texto: ', copyErr);
-                    showNotification('Erro ao copiar. Copie manualmente.');
+                    showToast('Texto copiado para a área de transferência!');
+                } catch (err) {
+                    showToast('Erro ao copiar o texto.');
                 }
-                document.body.removeChild(textArea);
-            }
-        }
-    });
+                document.body.removeChild(textarea);
+            };
+            
+            const fillWithTestData = () => {
+                // Clear existing lists
+                document.getElementById('services-list').innerHTML = '';
+                document.getElementById('components-list').innerHTML = '';
 
-    resetBtn.addEventListener('click', () => {
-        // Limpa todos os campos e listas
-        document.getElementById('clientName').value = '';
-        document.getElementById('clientContact').value = '';
-        document.getElementById('deviceBrand').value = '';
-        document.getElementById('deviceModel').value = '';
-        servicesList.innerHTML = '';
-        partsList.innerHTML = '';
-        updateTotal(); // Reseta o total para R$ 0,00
-    });
+                // Fill company data
+                document.getElementById('yourName').value = 'Seu Nome Sobrenome';
+                document.getElementById('companyName').value = 'Sua Empresa de TI';
+                document.getElementById('yourPhone').value = formatPhone('65999887766');
+                document.getElementById('yourEmail').value = 'contato@suaempresa.com';
 
-    // Adiciona uma linha de serviço e uma de peça por padrão para começar
-    addItem('service', 'services-list');
-    
-});
-</script>
+                // Fill client data
+                document.getElementById('clientName').value = 'Cliente de Teste';
+                document.getElementById('clientPhone').value = formatPhone('65988776655');
+                document.getElementById('clientEmail').value = 'cliente.teste@email.com';
+                document.getElementById('pcBrand').value = 'Marca Teste';
+                document.getElementById('pcModel').value = 'Modelo X-Test';
 
+                // Add random items
+                const service = QUICK_SERVICES[Math.floor(Math.random() * QUICK_SERVICES.length)];
+                const component = QUICK_COMPONENTS[Math.floor(Math.random() * QUICK_COMPONENTS.length)];
+                createItem('service', service.desc, service.price);
+                createItem('component', component.desc, component.price);
+
+                // Fill deadlines and details
+                document.getElementById('parts-deadline').value = '5 dias úteis';
+                document.getElementById('service-deadline').value = '2 dias após chegada das peças';
+                document.getElementById('details').value = 'Orçamento de teste gerado automaticamente. Garantia de 90 dias.';
+
+                updatePreview();
+                showToast('Dados de teste preenchidos!');
+            };
+
+
+            // --- EVENT LISTENERS ---
+            document.querySelectorAll('input[type="tel"]').forEach(input => {
+                input.addEventListener('input', (e) => {
+                    e.target.value = formatPhone(e.target.value);
+                });
+            });
+            
+            mainForm.addEventListener('input', (e) => {
+                if(e.target.id.startsWith('your')) saveCompanyData();
+                updatePreview();
+            });
+            
+            document.getElementById('app').addEventListener('click', (e) => {
+                if (e.target.closest('.remove-item-btn')) {
+                    e.target.closest('div[class*="item-"]').remove();
+                    updatePreview();
+                }
+            });
+
+            document.getElementById('add-service').addEventListener('click', () => createItem('service'));
+            document.getElementById('add-component').addEventListener('click', () => createItem('component'));
+
+            openModalBtn.addEventListener('click', () => modal.classList.remove('hidden'));
+            closeModalBtn.addEventListener('click', () => modal.classList.add('hidden'));
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) modal.classList.add('hidden');
+            });
+            
+            modalContent.addEventListener('click', (e) => {
+                if(e.target.classList.contains('add-quick-item-btn')) {
+                    const { type, desc, price } = e.target.dataset;
+                    createItem(type, desc, price);
+                    showToast(`"${desc}" adicionado.`);
+                }
+            });
+
+            copyTextBtn.addEventListener('click', copyQuoteAsText);
+            testDataBtn.addEventListener('click', fillWithTestData);
+            shareImageBtn.addEventListener('click', () => {
+                const quoteElement = document.getElementById('quote-output');
+                const originalBtnText = shareImageBtn.textContent;
+                shareImageBtn.innerHTML = '<div class="loader"></div>';
+                shareImageBtn.disabled = true;
+
+                html2canvas(quoteElement, { 
+                    scale: 2,
+                    useCORS: true,
+                    backgroundColor: '#ffffff'
+                }).then(canvas => {
+                    const link = document.createElement('a');
+                    const clientName = document.getElementById('clientName').value || 'cliente';
+                    const quoteDate = new Date().toISOString().slice(0, 10);
+                    link.download = `Orcamento-${clientName.replace(/\s+/g, '_')}-${quoteDate}.png`;
+                    link.href = canvas.toDataURL('image/png');
+                    link.click();
+                }).catch(err => {
+                    console.error('Erro ao gerar imagem:', err);
+                    showToast('Erro ao gerar a imagem.');
+                }).finally(() => {
+                    shareImageBtn.innerHTML = 'Compartilhar Imagem';
+                    shareImageBtn.disabled = false;
+                });
+            });
+
+            generatePdfBtn.addEventListener('click', () => {
+                const doc = new jsPDF();
+                const pageHeight = doc.internal.pageSize.height || doc.internal.pageSize.getHeight();
+                const pageWidth = doc.internal.pageSize.width || doc.internal.pageSize.getWidth();
+                const margin = 15;
+                let cursorY = 0;
+
+                const addHeader = () => {
+                    doc.setFontSize(18);
+                    doc.setFont(undefined, 'bold');
+                    doc.text(document.getElementById('companyName').value || 'Sua Empresa', margin, 20);
+                    doc.setFontSize(10);
+                    doc.setFont(undefined, 'normal');
+                    doc.text(document.getElementById('yourName').value || 'Seu Nome', margin, 26);
+                    
+                    doc.setFontSize(18);
+                    doc.setFont(undefined, 'bold');
+                    doc.text('Orçamento', pageWidth - margin, 20, { align: 'right' });
+                    doc.setFont(undefined, 'normal');
+                    doc.setFontSize(10);
+                    doc.text(`Data: ${new Date().toLocaleDateString('pt-BR')}`, pageWidth - margin, 26, { align: 'right' });
+                    
+                    doc.setDrawColor(200);
+                    doc.line(margin, 32, pageWidth - margin, 32);
+                };
+                
+                addHeader();
+                
+                cursorY = 45;
+
+                doc.setFontSize(10);
+                doc.setFont(undefined, 'bold');
+                doc.text('CLIENTE', margin, cursorY);
+                doc.text('EQUIPAMENTO', pageWidth / 2, cursorY);
+                
+                cursorY += 6;
+                doc.setFont(undefined, 'normal');
+                doc.text(document.getElementById('clientName').value || 'N/A', margin, cursorY);
+                doc.text(`${document.getElementById('pcBrand').value || 'N/A'} - ${document.getElementById('pcModel').value || 'N/A'}`, pageWidth / 2, cursorY);
+                
+                cursorY += 5;
+                const clientPhone = document.getElementById('clientPhone').value;
+                const clientEmail = document.getElementById('clientEmail').value;
+                doc.text(clientPhone, margin, cursorY);
+                cursorY += 5;
+                doc.text(clientEmail, margin, cursorY);
+                
+                cursorY += 10;
+
+                const tableOptions = {
+                    theme: 'grid',
+                    headStyles: { fillColor: [230, 230, 230], textColor: 20 },
+                    columnStyles: {
+                        0: { cellWidth: 125 }, 
+                        1: { cellWidth: 40, halign: 'right' }
+                    },
+                    didDrawPage: (data) => {
+                        addHeader();
+                        cursorY = data.cursor.y;
+                    }
+                };
+
+                const serviceData = getItemsFromDOM('service').map(item => [item.desc, formatCurrency(item.value)]);
+                if (serviceData.length > 0) {
+                    doc.autoTable({ ...tableOptions, startY: cursorY, head: [['Serviços Contratados', 'Valor']], body: serviceData });
+                    cursorY = doc.autoTable.previous ? doc.autoTable.previous.finalY : cursorY;
+                }
+
+                const componentData = getItemsFromDOM('component').map(item => [item.desc, formatCurrency(item.value)]);
+                if (componentData.length > 0) {
+                    const componentStartY = cursorY + (serviceData.length > 0 ? 5 : 0);
+                    doc.autoTable({ ...tableOptions, startY: componentStartY, head: [['Peças e Componentes', 'Valor']], body: componentData });
+                    cursorY = doc.autoTable.previous ? doc.autoTable.previous.finalY : cursorY;
+                }
+                
+                cursorY += 10;
+                
+                if (cursorY > pageHeight - 60) { // Check if there's enough space for details and totals
+                    doc.addPage();
+                    addHeader();
+                    cursorY = 45;
+                }
+
+
+                doc.setFontSize(10);
+                doc.setFont(undefined, 'bold');
+                doc.text('PRAZOS E DETALHES', margin, cursorY);
+                cursorY += 8;
+
+                doc.setFont(undefined, 'normal');
+                const partsDeadline = document.getElementById('parts-deadline').value;
+                if(partsDeadline) { doc.text(`Previsão de chegada das peças: ${partsDeadline}`, margin, cursorY); cursorY += 5; }
+                const serviceDeadline = document.getElementById('service-deadline').value;
+                if(serviceDeadline) { doc.text(`Prazo de finalização do serviço: ${serviceDeadline}`, margin, cursorY); cursorY += 5; }
+                const details = doc.splitTextToSize(document.getElementById('details').value || 'Nenhuma observação.', pageWidth - margin * 2);
+                doc.text(details, margin, cursorY);
+                cursorY += details.length * 5;
+
+                cursorY += 10;
+                
+                doc.setDrawColor(200);
+                doc.line(pageWidth / 2, cursorY, pageWidth - margin, cursorY);
+                cursorY += 6;
+
+                const totalsEl = document.getElementById('totals-summary');
+                const serviceLabel = totalsEl.querySelector('div:nth-child(1) span:nth-child(1)').textContent;
+                const serviceValue = totalsEl.querySelector('div:nth-child(1) span:nth-child(2)').textContent;
+                const componentLabel = totalsEl.querySelector('div:nth-child(2) span:nth-child(1)').textContent;
+                const componentValue = totalsEl.querySelector('div:nth-child(2) span:nth-child(2)').textContent;
+                const totalLabel = totalsEl.querySelector('div:nth-child(3) span:nth-child(1)').textContent;
+                const totalValue = totalsEl.querySelector('div:nth-child(3) span:nth-child(2)').textContent;
+                const labelX = pageWidth / 2 + 5;
+                const valueX = pageWidth - margin;
+                
+                doc.setFontSize(10);
+                doc.setFont(undefined, 'normal');
+                doc.text(serviceLabel, labelX, cursorY);
+                doc.text(serviceValue, valueX, cursorY, { align: 'right' });
+                cursorY += 6;
+                doc.text(componentLabel, labelX, cursorY);
+                doc.text(componentValue, valueX, cursorY, { align: 'right' });
+                cursorY += 8;
+                doc.setFontSize(12);
+                doc.setFont(undefined, 'bold');
+                doc.text(totalLabel, labelX, cursorY);
+                doc.text(totalValue, valueX, cursorY, { align: 'right' });
+                
+                const clientName = document.getElementById('clientName').value || 'cliente';
+                const quoteDate = new Date().toISOString().slice(0, 10);
+                const fileName = `Orcamento-${clientName.replace(/\s+/g, '_')}-${quoteDate}.pdf`;
+                doc.save(fileName);
+            });
+            
+            // --- INITIALIZATION ---
+            loadCompanyData();
+            populateQuickItems();
+            updatePreview();
+        });
+    </script>
 </body>
 </html>
